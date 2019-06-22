@@ -8,6 +8,8 @@
 
 # production
 /build
+/public/semantic/components
+/public/semantic/themes
 
 # misc
 .DS_Store
