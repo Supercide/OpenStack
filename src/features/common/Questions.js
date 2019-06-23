@@ -10,35 +10,88 @@ export class Questions extends Component {
     actions: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
   };
-  
+
   constructor(props) {
     super(props);
     this.state = {
-      questions: 0
-    }
+      questions: [],
+    };
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:5000/questions')
+      .then(res => res.json())
+      .then(questions => this.setState({ questions }));
+  }
+
+  renderQuestions() {
+    return this.state.questions.map(question => {
+      return (
+        <div className="question">
+          <div className="question-stats">
+            <div className="ui mini statistics vertical-center">
+              <div className="statistic">
+                <div className="value">22</div>
+                <div className="label">Votes</div>
+              </div>
+              <div className="statistic">
+                <div className="value">31</div>
+                <div className="label">Answers</div>
+              </div>
+              <div className="statistic">
+                <div className="value">22</div>
+                <div className="label">Views</div>
+              </div>
+            </div>
+          </div>
+          <div className="question-info">
+            <div className="row">
+              <a href="#" className="question-title">
+                {question.title}
+              </a>
+            </div>
+            <div className="question-meta">
+              <div className="question-tags">
+                {question.tags.map(tag => (
+                  <a className="ui mini tag label">{tag}</a>
+                ))}
+              </div>
+              <div className="question-modified">
+                <span>asked by {question.latestModification.user}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    });
   }
 
   render() {
     return (
-      <div className="common-questions ui grid br-bt">
-        <div className="left floated six wide column">
-          <h1>{this.props.title}</h1>
-        </div>
-        <div className="right floated six wide column">
-          <button className="ui right floated blue button">Ask Question</button>
-        </div>
-        <div className="row">          
-          <div className="left floated six wide column question-count">
-            {this.state.questions} questions
-          </div>
-          <div className="right floated six wide column">
-            <div class="ui right floated buttons">
-              <button class="ui button active">One</button>
-              <button class="ui button">Two</button>
-              <button class="ui button">Three</button>
+      <div className="common-questions">
+        <header className="br-bt ui grid">
+          <div className="row">
+            <div className="left floated six wide column">
+              <h1>{this.props.title}</h1>
+            </div>
+            <div className="right floated six wide column">
+              <button className="ui right floated blue button">Ask Question</button>
             </div>
           </div>
-        </div>
+          <div className="row">
+            <div className="left floated six wide column question-count">
+              {this.state.questions.length} questions
+            </div>
+            <div className="right floated six wide column">
+              <div className="ui right floated buttons">
+                <button className="ui button active">One</button>
+                <button className="ui button">Two</button>
+                <button className="ui button">Three</button>
+              </div>
+            </div>
+          </div>
+        </header>
+        {this.renderQuestions()}
       </div>
     );
   }
@@ -54,11 +107,11 @@ function mapStateToProps(state) {
 /* istanbul ignore next */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...actions }, dispatch)
+    actions: bindActionCreators({ ...actions }, dispatch),
   };
 }
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Questions);

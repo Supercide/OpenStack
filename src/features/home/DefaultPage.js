@@ -17,20 +17,11 @@ export class DefaultPage extends Component {
   render() {
     return (
       <div className="home-default-page">
-        <header className="app-header">
-          <img src={reactLogo} className="app-logo" alt="logo" />
-          <img src={rekitLogo} className="rekit-logo" alt="logo" />
-          <h1 className="app-title">Welcome to React</h1>
-        </header>
         <div className="ui three column grid">
-            <div className="column"></div>
-            <div className="column">
-              <Questions title="Top Questions" />
-            </div>
-            <div className="column"></div>
+            <div className="menu">test</div>
+            <div className="content"><Questions title="Top Questions" /></div>
+            <div className="info"></div>
         </div>
-        
-        
       </div>
     );
   }
